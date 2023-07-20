@@ -181,7 +181,7 @@ ELSE IF @QueryType = 'Update'
 			[MOD_DT] = @MOD_DT
 	 WHERE [HOS_CD] = @HOS_CD AND [DAY_CLINIC_CD] = @DAY_CLINIC_CD
 	 END
-	 ELSE IF @QueryType = 'Delete'
+ELSE @QueryType = 'Delete'
 	 BEGIN
 		DELETE FROM [dbo].[DAY_SERV_MAP]
 		WHERE [HOS_CD] = @HOS_CD AND [DAY_CLINIC_CD] = @DAY_CLINIC_CD
