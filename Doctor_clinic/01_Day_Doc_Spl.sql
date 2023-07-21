@@ -1,6 +1,6 @@
 ﻿Create Table DAY_DOC_SPL(
-SPL_CD nvarchar(10) Not Null  ,	
-SPL_DESC nvarchar(50) Not Null  ,	
+SPL_CD nvarchar(10) Not Null,	
+SPL_DESC nvarchar(50) Not Null,	
 ACTIVE_FLG char(1) Default 'Y' Not Null  ,	
 ENTRY_DT date ,	
 USER_CD nvarchar(10),	
