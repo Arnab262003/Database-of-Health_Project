@@ -6,7 +6,7 @@ CREATE TABLE DAY_SERV_MST (
   SERV_TYP_CD      NVARCHAR(5)    NOT NULL,    -- Service Type Code
   SERV_CD          NVARCHAR(7)    NOT NULL,    -- Service Code
   SERV_DESC        NVARCHAR(100)  NOT NULL,    -- Service Description
-  ADV_BOOK_FLG     CHAR(1)    DEFAULT 'Y' NOT NULL,    -- Advance Booking Flag – [Y]es / [N]o
+  ADV_BOOK_FLG     CHAR(1)    DEFAULT 'Y' NOT NULL,    -- Advance Booking Flag â€“ [Y]es / [N]o
   MAX_SERV_NO      NUMERIC(9)     DEFAULT 0   NOT NULL,    -- Maximum Service No.
   MAX_TM           NVARCHAR(5)    NOT NULL,    -- Maximum Execution Time of Service
   MIN_TM           NVARCHAR(5)    NOT NULL,    -- Minimum Execution Time of Service
