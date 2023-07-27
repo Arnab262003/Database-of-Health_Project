@@ -29,35 +29,68 @@ CREATE PROCEDURE InsertDayCnclRsnMst
     @MOD_ID NVARCHAR(2),
     @SUB_MOD_ID NVARCHAR(3),
     @ACT_FLG CHAR(1),
-    @MOD_DT DATE
+    @MOD_DT DATE,
+    @QueryType NVARCHAR(10)
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    INSERT INTO DAY_CNCL_RSN_MST (
-        CNCL_RSN_TYP_CD,
-        CNCL_RSN_CD,
-        CNCL_RSN_DESC,
-        ACTIVE_FLG,
-        ENTRY_DT,
-        USER_CD,
-        SESSION_ID,
-        MOD_ID,
-        SUB_MOD_ID,
-        ACT_FLG,
-        MOD_DT
-    )
-    VALUES (
-        @CNCL_RSN_TYP_CD,
-        @CNCL_RSN_CD,
-        @CNCL_RSN_DESC,
-        CASE WHEN @ACTIVE_FLG IN ('Y', 'N') THEN @ACTIVE_FLG ELSE 'Y' END,
-        @ENTRY_DT,
-        @USER_CD,
-        @SESSION_ID,
-        @MOD_ID,
-        @SUB_MOD_ID,
-        CASE WHEN @ACT_FLG IN ('A', 'I', 'D') THEN @ACT_FLG ELSE 'A' END,
-        @MOD_DT
-    );
+    IF @QueryType = 'INSERT'
+    BEGIN
+        INSERT INTO DAY_CNCL_RSN_MST (
+            CNCL_RSN_TYP_CD,
+            CNCL_RSN_CD,
+            CNCL_RSN_DESC,
+            ACTIVE_FLG,
+            ENTRY_DT,
+            USER_CD,
+            SESSION_ID,
+            MOD_ID,
+            SUB_MOD_ID,
+            ACT_FLG,
+            MOD_DT
+        )
+        VALUES (
+            @CNCL_RSN_TYP_CD,
+            @CNCL_RSN_CD,
+            @CNCL_RSN_DESC,
+            CASE WHEN @ACTIVE_FLG IN ('Y', 'N') THEN @ACTIVE_FLG ELSE 'Y' END,
+            @ENTRY_DT,
+            @USER_CD,
+            @SESSION_ID,
+            @MOD_ID,
+            @SUB_MOD_ID,
+            CASE WHEN @ACT_FLG IN ('A', 'I', 'D') THEN @ACT_FLG ELSE 'A' END,
+            @MOD_DT
+        );
+    END
+    ELSE IF @QueryType = 'UPDATE'
+    BEGIN
+        UPDATE DAY_CNCL_RSN_MST
+        SET
+            CNCL_RSN_DESC = @CNCL_RSN_DESC,
+            ACTIVE_FLG = CASE WHEN @ACTIVE_FLG IN ('Y', 'N') THEN @ACTIVE_FLG ELSE 'Y' END,
+            ENTRY_DT = @ENTRY_DT,
+            USER_CD = @USER_CD,
+            SESSION_ID = @SESSION_ID,
+            MOD_ID = @MOD_ID,
+            SUB_MOD_ID = @SUB_MOD_ID,
+            ACT_FLG = CASE WHEN @ACT_FLG IN ('A', 'I', 'D') THEN @ACT_FLG ELSE 'A' END,
+            MOD_DT = @MOD_DT
+        WHERE
+            CNCL_RSN_TYP_CD = @CNCL_RSN_TYP_CD
+            AND CNCL_RSN_CD = @CNCL_RSN_CD;
+    END
+    ELSE IF @QueryType = 'DELETE'
+    BEGIN
+        DELETE FROM DAY_CNCL_RSN_MST
+        WHERE
+            CNCL_RSN_TYP_CD = @CNCL_RSN_TYP_CD
+            AND CNCL_RSN_CD = @CNCL_RSN_CD;
+    END
+    ELSE
+    BEGIN
+        -- Invalid @QueryType
+        RETURN -1;
+    END
 END;
